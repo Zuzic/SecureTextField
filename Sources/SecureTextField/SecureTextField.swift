@@ -39,7 +39,7 @@ open class SecureTextField: UITextField {
         subscribeTextChange()
     }
     
-    public override func addTarget(_ target: Any?,
+    open override func addTarget(_ target: Any?,
                             action: Selector,
                             for controlEvents: UIControl.Event) {
         guard controlEvents != .editingChanged || action == defaultTextChangeAction else {
