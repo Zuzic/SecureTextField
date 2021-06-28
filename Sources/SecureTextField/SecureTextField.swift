@@ -2,14 +2,24 @@ import UIKit
 
 open class SecureTextField: UITextField {
     let defaultTextChangeAction = #selector(secureTextDidChanged)
-    private(set) var isSecure: Bool = false
+    private var isSecure: Bool = false
     private var timer: Timer?
     private var securedText: [Character] = .init() {
         didSet {
             visualizeTextUpdate()
         }
     }
-            
+       
+    public var isSecureText: Bool {
+        get {
+            return isSecure
+        }
+        set {
+            super.isSecureTextEntry = newValue
+            isSecure = newValue
+        }
+    }
+    
     public override var isSecureTextEntry: Bool {
         get {
             return false
