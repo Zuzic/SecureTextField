@@ -2,7 +2,15 @@ import UIKit
 
 open class SecureTextField: UITextField {
     let defaultTextChangeAction = #selector(secureTextDidChanged)
-    private var isSecure: Bool = false
+    private var isSecure: Bool = false {
+        didSet {
+            if isSecure {
+                secureText()
+            } else {
+                showText()
+            }
+        }
+    }
     private var timer: Timer?
     private var securedText: [Character] = .init() {
         didSet {
@@ -84,20 +92,34 @@ open class SecureTextField: UITextField {
                                         guard let self = self else {
                                             return
                                         }
-                                        let value: String = .init(repeating: "•",
-                                                          count: self.securedText.count)
-                                        let attributes: [NSAttributedString.Key: Any] = [.font: self.font ?? UIFont.systemFont(ofSize: 16)]
-                                        self.attributedText = .init(string: value, attributes: attributes)
+                                        
+                                        self.updateTextVisibility()
                                         timer.invalidate()
                                         
                                      })
     }
     
     @objc private func secureTextDidChanged() {
-        guard isSecure else {
-            return
-        }
         updateSubstring(by: attributedText?.string ?? "")
+    }
+    
+    private func showText() {
+        self.attributedText = .init(string: text ?? "")
+    }
+    
+    private func secureText() {
+        let value: String = .init(repeating: "•",
+                          count: self.securedText.count)
+        let attributes: [NSAttributedString.Key: Any] = [.font: self.font ?? UIFont.systemFont(ofSize: 16)]
+        self.attributedText = .init(string: value, attributes: attributes)
+    }
+    
+    private func updateTextVisibility() {
+        if isSecure {
+            secureText()
+        } else {
+            showText()
+        }
     }
 }
 
