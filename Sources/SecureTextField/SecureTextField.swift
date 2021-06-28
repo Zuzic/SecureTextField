@@ -1,6 +1,6 @@
 import UIKit
 
-class SecureTextField: UITextField {
+open class SecureTextField: UITextField {
     let defaultTextChangeAction = #selector(secureTextDidChanged)
     private(set) var isSecure: Bool = false
     private var timer: Timer?
@@ -10,7 +10,7 @@ class SecureTextField: UITextField {
         }
     }
             
-    override var isSecureTextEntry: Bool {
+    public override var isSecureTextEntry: Bool {
         get {
             return false
         }
@@ -20,7 +20,7 @@ class SecureTextField: UITextField {
         }
     }
     
-    override var text: String? {
+    public override var text: String? {
         get {
             return .init(securedText)
         }
@@ -29,17 +29,17 @@ class SecureTextField: UITextField {
         }
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         subscribeTextChange()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         subscribeTextChange()
     }
     
-    override func addTarget(_ target: Any?,
+    public override func addTarget(_ target: Any?,
                             action: Selector,
                             for controlEvents: UIControl.Event) {
         guard controlEvents != .editingChanged || action == defaultTextChangeAction else {
